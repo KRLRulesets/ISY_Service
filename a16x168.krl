@@ -41,6 +41,9 @@ CloudOS Service for Universal Device ISY 99i
                       }
     }
 
+    lights = "1A%20F3%203E%201";
+    heater = "20%20B9%208F%201";
+
   }
 
   rule battery {
@@ -64,9 +67,17 @@ The device #{event:attr("device_type")}:#{event:attr("device_id")} in the #{even
     select when explicit office_lights
     pre {
       state = event:attr("state") eq "on" => "DON" | "DOF";
-      node_id = "1A%20F3%203E%201"
     }
-    control_node(node_id, state);
+    control_node(lights, state);
+  }
+
+
+  rule heater {
+    select when explicit office_heater
+    pre {
+      state = event:attr("state") eq "on" => "DON" | "DOF";
+    }
+    control_node(heater, state);
   }
 
 
